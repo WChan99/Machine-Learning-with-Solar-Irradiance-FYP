@@ -61,7 +61,7 @@ while counter < 3:
     # Rounding of to 2 decimal place
     formatted_asks = [round(x, 2) for x in asks]
     #Generate delivered power of the sellers
-    asks_quantity = [round(random.uniform(0.750,1.250),2) for _ in range(m-b)]
+    asks_quantity = [round(random.uniform(0.75,1.25),2) for _ in range(m-b)]
 
     for i in range(b):
             
