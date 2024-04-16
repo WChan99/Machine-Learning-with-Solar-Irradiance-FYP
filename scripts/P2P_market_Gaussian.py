@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import random
 import time
-# Gaussian Processor Regressor
+# Gaussian Processor Regressor + Linear Regression
 import AI_test_Gaussian
 import importlib
 import matplotlib.pyplot as plt
@@ -186,8 +186,8 @@ while counter < 3:
                  f"{df2}\n" \
                  f"The date of the next day is {AI_test_Gaussian.next_day.strftime('%A , %d/%m/%Y')}.\n" \
                  f"The equilibrium price is ${price:.2f}/MWh.\n" \
-                 f"The total bid quantity that sold over the equilibrium price is {quantity_bid:.2f} units\n" \
-                 f"The total ask quantity that sold over the equilibrium price is {quantity_ask:.2f} units\n" \
+                 f"The total bid quantity that sold over the equilibrium price is {quantity_bid:.2f} MWh\n" \
+                 f"The total ask quantity that sold over the equilibrium price is {quantity_ask:.2f} MWh\n" \
                  f"The bids quantity below average price is {total_bids_quantity:.2f}\n" \
                  f"The asks quantity over the average price is {total_asks_quantity:.2f}\n" \
                  f"The data from AI_test for Solar Irradiance for current hour is {AI_test_Gaussian.predictions[hour]:.2f}\n" \
@@ -196,26 +196,26 @@ while counter < 3:
 
         # Check for any surplus or additional bid or ask quantity for prices below the equilibrium
         if quantity_bid > quantity_ask:
-            output += f"There is additional of {quantity_bid-quantity_ask:.2f} units required for price below the equilibrium.\n"
+            output += f"There is additional of {quantity_bid-quantity_ask:.2f} MWh required for price below the equilibrium.\n"
         elif quantity_bid < quantity_ask:
-            output += f"There is surplus of {quantity_ask-quantity_bid:.2f} units for price below the equilibrium.\n"
+            output += f"There is surplus of {quantity_ask-quantity_bid:.2f} MWh for price below the equilibrium.\n"
         else:
             output += f"There is no surplus or additonal.\n"
 
         # Check for any surplus or additional bid or ask quantity for prices after the equilibrium 
         if total_bids_quantity > total_asks_quantity:
-            output += f"There is additional of {total_bids_quantity-total_asks_quantity:.2f} units required for price after the equilibrium.\n"
+            output += f"There is additional of {total_bids_quantity-total_asks_quantity:.2f} MWh required for price after the equilibrium.\n"
         elif total_bids_quantity < total_asks_quantity:
-            output += f"There is surplus of {total_asks_quantity-total_bids_quantity:.2f} units for price after the equilibrium.\n"
+            output += f"There is surplus of {total_asks_quantity-total_bids_quantity:.2f} MWh for price after the equilibrium.\n"
         else:
             output += f"There is no surplus or additonal.\n"
         
         # Check for the total amount bid and ask quantity
         if total_consumers > total_prosumers:
             battery_price = random.uniform(price , 1.2*price)
-            output += f"There is additional of {total_consumers-total_prosumers:.2f} units that will be supply by the battery at ${battery_price:.2f}/MWh.\n"
+            output += f"There is additional of {total_consumers-total_prosumers:.2f} MWh that will be supply by the battery at ${battery_price:.2f}/MWh.\n"
         elif total_consumers < total_prosumers:
-            output += f"There is surplus of {total_prosumers-total_consumers:.2f} units that will be sold to the battery at ${price:.2f}/MWh.\n"
+            output += f"There is surplus of {total_prosumers-total_consumers:.2f} MWh that will be sold to the battery at ${price:.2f}/MWh.\n"
         else:
             output += f"There is no surplus or additonal in overall.\n"
 
