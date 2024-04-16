@@ -1,8 +1,8 @@
 # Front User Interface
 import PySimpleGUI as sg
 
-layout = [[sg.Text("Prosumers (Excluding PV-Prosumers): "), sg.InputText()],
-          [sg.Text("PV-Prosumers(Maximum 3): "), sg.InputText()],
+layout = [[sg.Text("Seller (Other than solar power): "), sg.InputText()],
+          [sg.Text("Seller (By solar power Max:3): "), sg.InputText()],
           [sg.Text("Consumers (Excluding EV-Consumers): "), sg.InputText()],
           [sg.Text("EV-Consumers: "), sg.InputText()],
           [sg.Button("Submit"), sg.Button("Exit")]]

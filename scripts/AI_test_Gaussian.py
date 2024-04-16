@@ -130,7 +130,7 @@ for i in range(13):
         hour_data = hour_data[hour_data['Minute'] == k*10]
 
         # Splitting the dataset into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=1)
+        X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=0.8)
 
         pm_X_train.append(X_train)
         pm_X_test.append(X_test)
@@ -161,15 +161,22 @@ for i in range(13):
     y_pred_linear = linear_regressor.predict(X_test)
 
     # Ensure predictions are non-negative
-    y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
+    y_pred = np.maximum((y_pred_gp+y_pred_linear/2), 0)
 
     #Append the predicition into a array for each hour
     minute_prediciton.append(y_pred)
     #print(minute_prediciton)
     a+=1
-        
+
+    # Finding the amount of element within the array
+    number = np.array(minute_prediciton).size
+    # Sum all the element with the array
+    sum = np.sum(minute_prediciton)
+    # Average value of the array
+    average = sum / number
     #Append for 8am - 8pm data
-    pm_predictions.append(minute_prediciton)
+    pm_predictions.append(average)
+    
         
 #Remove the array from each hour data    
 even_hour = np.array(pm_predictions).flatten()
@@ -256,6 +263,6 @@ predictions = np.array(array_combines).flatten()
 #print(predictions)
 
 # Total amount of solar generated for a day
-total = sum(predictions)
+total = np.sum(predictions)
 #print(total)
  
