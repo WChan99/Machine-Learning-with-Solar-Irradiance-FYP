@@ -60,7 +60,7 @@ for i in range(8):
     hour_data = hour_data[hour_data['Month'] == m]
 
     # Splitting the dataset into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size = 1)
+    X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size = 0.8)
 
     am_X_train.append(X_train)
     am_X_test.append(X_test)
@@ -91,14 +91,21 @@ for i in range(8):
     y_pred_linear = linear_regressor.predict(X_test)
 
     # Ensure predictions are non-negative
-    y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
+    y_pred = np.maximum((y_pred_gp+y_pred_linear)/2, 0)
 
 
     # Ensure predictions are non-negative
     y_pred = np.maximum(y_pred, 0)
+
+    # Finding the amount of element within the array
+    number = np.array(y_pred).size
+    # Sum all the element with the array
+    sum = np.sum(y_pred)
+    # Average value of the array
+    average = sum / number
  
     # Append prediction into a array for all hours
-    am_predictions.append(y_pred)
+    am_predictions.append(average)
 
 #Append predictions for 7hr into a list
 morning_hour = np.array(am_predictions).flatten()
@@ -161,7 +168,7 @@ for i in range(13):
     y_pred_linear = linear_regressor.predict(X_test)
 
     # Ensure predictions are non-negative
-    y_pred = np.maximum((y_pred_gp+y_pred_linear/2), 0)
+    y_pred = np.maximum((y_pred_gp+y_pred_linear)/2, 0)
 
     #Append the predicition into a array for each hour
     minute_prediciton.append(y_pred)
@@ -200,7 +207,7 @@ for i in range(3):
     hour_data = hour_data[hour_data['Month'] == m]
 
     # Splitting the dataset into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=1)
+    X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=0.8)
 
     night_X_train.append(X_train)
     night_X_test.append(X_test)
@@ -231,14 +238,23 @@ for i in range(3):
     y_pred_linear = linear_regressor.predict(X_test)
 
     # Ensure predictions are non-negative
-    y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
+    y_pred = np.maximum((y_pred_gp+y_pred_linear)/2, 0)
 
 
     # Ensure predictions are non-negative
     y_pred = np.maximum(y_pred, 0)
 
+
+    # Finding the amount of element within the array
+    number = np.array(y_pred).size
+    # Sum all the element with the array
+    sum = np.sum(y_pred)
+    # Average value of the array
+    average = sum / number
+
     # Append prediction into a array for all hours
-    night_predictions.append(y_pred)
+    night_predictions.append(average)
+
 
 # Append predictions for 7hr into a list
 night_hour = np.array(night_predictions).flatten()
