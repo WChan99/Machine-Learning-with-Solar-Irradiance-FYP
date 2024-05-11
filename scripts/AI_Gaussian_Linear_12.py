@@ -62,7 +62,7 @@ for m in range(1,13):
         hour_data = hour_data[hour_data['Month'] == m]
 
         # Splitting the dataset into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size = 1)
+        X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size = 0.8)
 
         am_X_train.append(X_train)
         am_X_test.append(X_test)
@@ -93,8 +93,15 @@ for m in range(1,13):
         # Ensure predictions are non-negative
         y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
 
+        # Finding the amount of element within the array
+        number = np.array(y_pred).size
+        # Sum all the element with the array
+        sum = np.sum(y_pred)
+        # Average value of the array
+        average = round(sum / number,2)
+
         # Append prediction into a array for all hours
-        am_predictions.append(y_pred)
+        am_predictions.append(average)
 
     #Append predictions for 7hr into a list
     morning_hour = np.array(am_predictions).flatten()
@@ -127,7 +134,7 @@ for m in range(1,13):
             hour_data = hour_data[hour_data['Minute'] == k*10]
 
             # Splitting the dataset into training and testing sets
-            X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=1)
+            X_train, X_test, y_train, y_test = train_test_split(hour_data[['Year', 'Day']], hour_data['Solar Irradiance'], test_size=0.8)
 
             pm_X_train.append(X_train)
             pm_X_test.append(X_test)
@@ -158,10 +165,18 @@ for m in range(1,13):
 
         # Ensure predictions are non-negative
         y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
+
+        # Finding the amount of element within the array
+        number = np.array(y_pred).size
+        # Sum all the element with the array
+        sum = np.sum(y_pred)
+        # Average value of the array
+        average = round(sum / number,2)
+
         a+=1
             
         #Append for 8am - 8pm data
-        pm_predictions.append(y_pred)
+        pm_predictions.append(average)
 
     #Remove the array from each hour data    
     even_hour = np.array(pm_predictions).flatten()
@@ -216,9 +231,15 @@ for m in range(1,13):
         # Ensure predictions are non-negative
         y_pred = np.maximum((y_pred_gp+y_pred_linear), 0)
 
+        # Finding the amount of element within the array
+        number = np.array(y_pred).size
+        # Sum all the element with the array
+        sum = np.sum(y_pred)
+        # Average value of the array
+        average = sum / number
 
         # Append prediction into a array for all hours
-        night_predictions.append(y_pred)
+        night_predictions.append(average)
 
     # Append predictions for 7hr into a list
     night_hour = np.array(night_predictions).flatten()
@@ -243,6 +264,6 @@ for m in range(1,13):
     #print(predictions)
 
     # Total amount of solar generated for a day
-    total = sum(predictions)
+    total = np.sum(predictions)
     month.append(total)
 #print(month)

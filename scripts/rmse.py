@@ -62,20 +62,26 @@ print(f"Gaussian value:{Gaussian_area}")
 print(f"Gaussian Linear value:{Linear_area}")
 
 
-rmse_Gaussian = sqrt(mean_squared_error(actual, Gaussian_area))
-print(f"Gaussian Model RMSE: {rmse_Gaussian:.2f}")
-rmse_Linear = sqrt(mean_squared_error(actual, Linear_area))
-print(f"Gaussian Linear Model RMSE: {rmse_Linear:.2f}")
 
+rmse_Gaussian = np.sqrt(mean_squared_error(actual, Gaussian_area))
+target_range = np.max(actual) - np.min(actual)
+percentage_accuracy_Gaussian = (1.0 - (rmse_Gaussian / target_range)) * 100
+print(f"Gaussian Model RMSE: {percentage_accuracy_Gaussian:.2f}%")
+
+rmse_Linear = np.sqrt(mean_squared_error(actual, Linear_area))
+percentage_accuracy_Linear = (1.0 - (rmse_Linear / target_range)) * 100
+print(f"Gaussian Linear Model RMSE: {percentage_accuracy_Linear:.2f}%")
 
 mae_Gaussian = mean_absolute_error(actual, Gaussian_area)
 print(f"Gaussian Model MAE: {mae_Gaussian:.2f}")
 mae_Linear = mean_absolute_error(actual, Linear_area)
 print(f"Gaussian Linear Model MAE: {mae_Linear:.2f}")
 
-
 # Calculate R-squared
 r2_Gaussian = r2_score(actual, Gaussian_area)
 print(f"Gaussian Model R-squared: {r2_Gaussian:.2f}")
 r2_Linear = r2_score(actual, Linear_area)
 print(f"Gaussian Linear Model R-squared: {r2_Linear:.2f}")
+
+
+
